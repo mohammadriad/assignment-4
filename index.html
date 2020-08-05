@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="generate-amount" class="form-control" type="text">
+                    <button id="generateBtn" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="display" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div id = "seven" class="button">7</div>
+                              <div id="eight" class="button">8</div>
+                              <div id="nine" class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div id="four" class="button">4</div>
+                              <div id="five" class="button">5</div>
+                              <div id="six" class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div id="one" class="button">1</div>
+                              <div id="two" class="button">2</div>
+                              <div id="three" class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div id="backspace" class="button"><</div>
+                                <div id="zero" class="button">0</div>
+                                <div id="clearBtn" class="button">C</div>
+                            </div>
+                            <div>
+                                <button onclick="myFunction()" id="submit" type="submit" class="submit-btn">Submit</button>
+                                <p class="action-left"> <span id="tryNumber" > 3 try left </span></p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="noMatch" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="matchPin" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+        
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', function(){
+            
+             const upper = 10000;
+             const lower = 1000; 
+             const numbers = Math.random()* 100 + lower;
+             const result = Math.round(numbers);
+           
+             document.getElementById('generate-amount').value = result;
+            
+        }) 
+
+        var allButton = document.getElementsByClassName("button");
+        var Numbers = "";
+        for(var i=0; i <allButton.length; i++){
+            allButton[i].addEventListener('click', function(){
+                var value = this.innerText;
+            if(value >= "0" && value <= "9"){
+                Numbers = Numbers + value;
+                document.getElementById("display").value = Numbers;
+            
+            }
+            else if (value == "<"){
+            var deleteDigit = document.getElementById("display").value.slice(0,-1);
+                document.getElementById("display").value = deleteDigit; 
+            }
+
+            else if (this.id == "clearBtn"){
+                 
+                document.getElementById("display").value = "";
+            }
+
+            else{
+
+            }
+            return allButton;
+
+            })
+        }
+        
+        function myFunction(){
+            var generateAmount = document.getElementById("generate-amount").value;
+            var displayAmount = document.getElementById("display").value;
+
+            if( generateAmount === displayAmount){
+                const matchText = document.getElementById("matchPin");
+                matchText.style.display= "block";   
+            }
+
+            else if(generateAmount != displayAmount){
+                const noMatchText = document.getElementById("noMatch");
+                noMatchText.style.display= "block";
+            }
+
+        blankClick();
+        submits("");
+        }
+        var clicked = 0;
+        function submits(){
+            clicked++;
+            if(clicked == 1){
+                document.getElementById("tryNumber").innerText = "2 try left";
+            }
+            if(clicked == 2){
+                document.getElementById("tryNumber").innerText = "1 try left";
+            }
+            if (clicked >2){
+                document.getElementById("tryNumber").innerText = "No try left";
+            }
+        }
+         
+        function blankClick(){
+            var blankClickValue = document.getElementById("display").value;
+            if (blankClickValue == ""){
+                alert("Please insert generate pinNumber");
+                return false;
+                
+            }
+
+            }
+             
+    </script>
+     
+</body>
+</html>
